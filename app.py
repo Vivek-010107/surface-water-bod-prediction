@@ -36,8 +36,8 @@ def validate(values):
         if name not in ("Temperature", "pH", "Year") and values[name] < 0:
             return f"{name.replace('_', ' ')} cannot be negative."
     year = values["Year"]
-    if not float(year).is_integer() or not 2003 <= year <= 2014:
-        return "Year must be an integer between 2003 and 2014."
+    if not float(year).is_integer():
+        return "Year must be a whole number."
     return None
 
 
@@ -148,7 +148,7 @@ def main():
     with st.form("water_parameters"):
         st.subheader("Water Quality Parameters")
         st.write("Enter the measured water-quality parameters below.")
-        st.caption("Accepted temperature range: −5–60 °C; year: 2003–2014.")
+        st.caption("Accepted temperature range: −5–60 °C. Enter Year as a whole number.")
         left, right = st.columns(2)
         with left:
             temperature = st.number_input("Temperature (°C)", value=25.0)
@@ -159,7 +159,7 @@ def main():
             dissolved = st.number_input("Dissolved Oxygen - DO (mg/L)", value=6.0)
             conductivity = st.number_input("Conductivity (µmhos/cm)", value=300.0)
             fecal = st.number_input("Fecal Coliform (MPN/100 mL)", value=50.0)
-            year = st.number_input("Year", min_value=2003, max_value=2014, value=2014, step=1)
+            year = st.number_input("Year", value=2026, step=1)
         submitted = st.form_submit_button("Predict BOD", type="primary", use_container_width=True)
 
     if submitted:
